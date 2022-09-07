@@ -11,9 +11,69 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+function LinkedList() {
+  this.head = null;
+  this.length = 0;
+}
+function Node (value) {
+  this.value = value;
+  this.next = null;
+}
 
-function Node(value) {}
+LinkedList.prototype.add = function(value){//el value se usa para que cuando llamemos al .add, me agrege ese valor
+  var node = new Node(value)
+  //Lista esté vacía
+if(this.head === null){
+  this.head = node;//así se engancha el nodo
+}
+//Lista tenga elementos
+else{
+  let current = this.head
+  while(current.next !== null){//se usa while porque no sabemos hasta qué punto hay que llegar para cortar
+    current = current.next;//mi puntero será igual al próximo bagón
+  }
+  current.next = node;
+}
+}
+LinkedList.prototype.remove = function(){
+  let current = this.head;
+
+  if(this.head === null) return null; //(!this.head) si la lista está vacía
+  // sila lista tiene un elemento
+  else if(this.length === 1){
+    //sacar el nodo, devolverlo
+    let removed = this.head; // let removed = current;
+    this.head = null;
+    this.length --;// sacamos un elemento, disminuimos la longitud
+    return removed;
+  }
+  while(current.next.next){
+    current = current.next;
+  }
+  let deleted = current.next.next;
+  current.next = null;
+  this.length--;
+  return deleted;
+}
+LinkedList.prototype.search = function(param){
+  
+  if(this.head === null)return null;
+
+  let current = this.head;
+  while(current){
+    // 1--> current.value === valor
+    if(current.value === param) return current.value;
+    else if(typeof param === 'function'){
+      // 2 --> cb(current.value) === true
+      if (param(current.value) === true) return current.value;
+    }
+    current = current.next;
+  }
+  return null;
+
+}
+
+
 
 /*
 Implementar la clase HashTable.
@@ -30,7 +90,21 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() {
+  this.buckets = [];
+  this.numbuckets = 35;
+}
+HashTable.prototype.hash = function(param){
+  // charCodeAt --> valr ascii
+  let suma = 0;
+  for (let i = 0; i < key.length; i++) {
+    suma += key.charCodeAt(i);
+  }
+  return suma % this.numBuckets;
+}
+
+
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
@@ -40,3 +114,4 @@ module.exports = {
   LinkedList,
   HashTable,
 };
+

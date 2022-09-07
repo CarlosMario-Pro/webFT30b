@@ -1,6 +1,7 @@
 // 'use strict'
 
 const { normalizeIgnoreContent } = require("@11ty/eleventy/src/EleventyFiles");
+const { listenerCount } = require("@11ty/eleventy/src/Util/AsyncEventEmitter");
 
 /*
 Definir las funciones recursivas nFactorial y nFibonacci.
@@ -28,6 +29,7 @@ console.log(nFactorial(5))
 //Secuencia:  0,  1,  1,  2,  3,  5,  8,  13,  21,  34, ...55 
 //Posición    0   1   2   3   4   5   6   7     8    9     10
 function nFibonacci(n) {
+  //fib(n) = fib(n-1) + fib(n-2)
   if (n === 0 || n === 1)return n
     return nFibonacci(n - 1) + nFibonacci(n - 2);
   }
@@ -73,3 +75,18 @@ module.exports = {
   nFactorial,
   nFibonacci
 };
+
+function List() {
+  this.length = 0;
+  this.head = null;
+}
+
+function Node(data) {
+  this.data = data;
+  this.next = null;
+}
+
+List.prototype.add = function(data){
+  var node = new Node(data);
+  console.log(node);
+}
