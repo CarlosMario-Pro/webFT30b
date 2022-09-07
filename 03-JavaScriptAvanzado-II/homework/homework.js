@@ -29,6 +29,7 @@ counter();
 
 
 
+
 function cacheFunction(cb) {
   /*
   Ejercicio 2
