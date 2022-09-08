@@ -42,15 +42,15 @@ function mergeSort(array) {
   // Devolver el array ordenado resultante
   // Tu código:
 
-  var len = array.length;
+  var len = array.length; //obtener la longitud del arreglo
 
   if( len <= 1) {
   	return array;
   }
 
-  var middle = Math.floor(len/2);
-  var left = array.slice(0, middle);
-  var right = array.slice(middle);
+  var middle = Math.floor(len/2);//obtener la mitad de la longitud del arreglo redondeada al entero anterior
+  var left = array.slice(0, middle);//guardado del arreglo del indice 0 al indice mitad
+  var right = array.slice(middle);//guarda el arreglo desde la
 
   right = mergeSort(right);
   left = mergeSort(left);

@@ -27,41 +27,20 @@ BinarySearchTree.prototype.size = function(){
   if(this.right !== null && this.left !== null) return 1 + this.right.size() + this.left.size();
 };
 
-/*
-BinarySearchTree.prototype.insert = function(value){
-  // Menores --> izq
-  // Mayorees --> der
-  if(value > this.value){
-    // Derecha
-    if(this.right === null){
-      this.right = new BinarySearchTree(value);
-    }else{
-      this.right.insert(value);//vuelve a llamar a la función, aquí el this es el primer elemento a la derecha del root.
-    }
-  }else if (value < this.value){
-    //izquierda
-    if(this.left === null){
-      this.left = new BinarySearchTree(value);
-    }else{
-      this.left.insert(value);//vuelve a llamar a la función, aquí el this es el primer elemento a la derecha del root.
-    }
-  }
-};
-*/
 
 BinarySearchTree.prototype.insert = function(value){ // recibe un nodo y lo inserta en la posición correspondiente
   //chequear si el value el mayor o menor que el value del nodo
   //el insert se llama sobre un nodo no creado:
   //let arbol =new BinarySearchTree(10)
   //this.insert(5)
-  if(value>this.value){
+  if(value > this.value){
     if(this.right === null){ // rama vacia
       this.right = new BinarySearchTree(value);
     } else {
       this.right.insert(value);
     }
   }
-  if(value<=this.value){ // engancha los menos o iguales
+  if(value <= this.value){ // engancha los menos o iguales
     if(this.left === null){ // o tbn !this.left 
       this.left = new BinarySearchTree(value);
     } else {
@@ -69,6 +48,8 @@ BinarySearchTree.prototype.insert = function(value){ // recibe un nodo y lo inse
     }
   }
  }
+
+
  BinarySearchTree.prototype.contains = function(value) { // buscar e indicar true o false
   if(value === this.value) return true 
   if(value < this.value){
@@ -85,6 +66,7 @@ BinarySearchTree.prototype.insert = function(value){ // recibe un nodo y lo inse
   }
  }
  
+
  BinarySearchTree.prototype.depthFirstForEach = function (cb,variante){
   if (variante === 'in-order' || variante === undefined){ // izq - root - der
      if(this.left) this.left.depthFirstForEach(cb,variante);

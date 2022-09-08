@@ -11,67 +11,69 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
+
 function LinkedList() {
   this.head = null;
-  this.length = 0;
 }
-function Node (value) {
+
+function Node(value) {
   this.value = value;
-  this.next = null;
+  this.next = null
 }
 
-LinkedList.prototype.add = function(value){//el value se usa para que cuando llamemos al .add, me agrege ese valor
-  var node = new Node(value)
-  //Lista esté vacía
-if(this.head === null){
-  this.head = node;//así se engancha el nodo
-}
-//Lista tenga elementos
-else{
-  let current = this.head
-  while(current.next !== null){//se usa while porque no sabemos hasta qué punto hay que llegar para cortar
-    current = current.next;//mi puntero será igual al próximo bagón
+LinkedList.prototype.add = function (value) {
+  if (this.head === null) this.head = new Node(value)
+  else {
+      let ingresar = this.head // se guarda una copia de this.head
+      while (ingresar.next !== null) {
+          ingresar = ingresar.next //ingresar se convierte en el nuevo ingresar.next
+      }
+      ingresar.next = new Node(value)
+
   }
-  current.next = node;
 }
-}
+
 LinkedList.prototype.remove = function(){
-  let current = this.head;
-
-  if(this.head === null) return null; //(!this.head) si la lista está vacía
-  // sila lista tiene un elemento
-  else if(this.length === 1){
-    //sacar el nodo, devolverlo
-    let removed = this.head; // let removed = current;
+  if(!this.head) return null;
+  if(!this.head.next){
+    var interator = this.head;
     this.head = null;
-    this.length --;// sacamos un elemento, disminuimos la longitud
-    return removed;
-  }
-  while(current.next.next){
-    current = current.next;
-  }
-  let deleted = current.next.next;
-  current.next = null;
-  this.length--;
-  return deleted;
-}
-LinkedList.prototype.search = function(param){
-  
-  if(this.head === null)return null;
-
-  let current = this.head;
-  while(current){
-    // 1--> current.value === valor
-    if(current.value === param) return current.value;
-    else if(typeof param === 'function'){
-      // 2 --> cb(current.value) === true
-      if (param(current.value) === true) return current.value;
+    return interator.value;
+  }else{
+    var interator = this.head;
+    while(interator.next.next != null){
+      interator = interator.next
     }
-    current = current.next;
+    var data = interator.next.value;
+    interator.next = null;
+    return data
   }
-  return null;
-
 }
+
+LinkedList.prototype.search = function(argumento){
+  if(!this.head) return null;
+
+
+var busqueda;
+if(typeof argumento != "function"){
+     busqueda = function(value){
+      return value === argumento
+     }
+} else{
+  busqueda = argumento;
+}
+var current = this.head
+while(current){
+  if(busqueda(current.value)){
+    return current.value;
+  }
+  else{
+    current = current.next
+  }
+}
+return null
+}
+
 
 
 
@@ -90,20 +92,47 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
+
 function HashTable() {
-  this.buckets = [];
-  this.numbuckets = 35;
+  this.numBuckets = 35
+  this.contenedores = []
 }
-HashTable.prototype.hash = function(param){
-  // charCodeAt --> valr ascii
-  let suma = 0;
-  for (let i = 0; i < key.length; i++) {
-    suma += key.charCodeAt(i);
+HashTable.prototype.hash = function(key){
+
+ let total = 0;
+ for(let i = 0; i<key.length; i++){
+  total+= key.charCodeAt(i);
+ }
+ return total % this.numBuckets
+}
+
+HashTable.prototype.set = function(key, value){
+ if(typeof key != "string") throw TypeError("Keys must be strings")
+  var i = this.hash(key)
+  //if(typeof key !== "string") throw TypeError("no es un string")
+
+  this.contenedores[i] = this.contenedores[i] || []
+  this.contenedores[i].unshift({key: key, value: value})
+
+
+};
+
+HashTable.prototype.get = function(key){
+  var i = this.hash(key)
+  var subArray = this.contenedores[i]
+  for(let i = 0; i < subArray.length; i++){
+    if(subArray[i].key === key){
+      return subArray[i].value
+    }
   }
-  return suma % this.numBuckets;
-}
+  return false
+};
 
+HashTable.prototype.hasKey = function(key){
+  if(this.get(key)) return true;
+  else return false
 
+};
 
 
 // No modifiquen nada debajo de esta linea
